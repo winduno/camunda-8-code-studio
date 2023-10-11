@@ -67,7 +67,7 @@
         <bpmn:incoming>Flow_08n6847</bpmn:incoming>
         <bpmn:outgoing>Flow_1qd34jv</bpmn:outgoing>
         <bpmn:timerEventDefinition id="TimerEventDefinition_0f8ltxv">
-          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P2D</bpmn:timeDuration>
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2M</bpmn:timeDuration>
         </bpmn:timerEventDefinition>
       </bpmn:intermediateCatchEvent>
       <bpmn:sequenceFlow id="Flow_1qd34jv" sourceRef="Event_15whxdt" targetRef="Activity_1c9uk2d" />

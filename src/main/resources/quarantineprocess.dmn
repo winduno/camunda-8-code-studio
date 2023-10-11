@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="quarantineProcessDefinitions" name="Quanrantine Process DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.15.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="5457fc5d-c980-43ab-a0f1-b3c753f36eed">
+  <decision id="quarantineDecision" name="Quarantine Decision">
+    <informationRequirement id="InformationRequirement_0m7irho">
+      <requiredInput href="#InputData_age" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0bkc4vi">
+      <requiredInput href="#inputDataCriticalInfrastructureEmployee" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0jwv4w3">
+      <requiredInput href="#inputDataAge" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1t31olb">
+      <input id="Input_1" label="Age">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>age</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_12xp6dz" label="Critical Infrastructure Employee">
+        <inputExpression id="LiteralExpression_12iqad6" typeRef="boolean">
+          <text>criticalInfrastructureEmployee</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Quanratine Duration" name="quarantineDuration" typeRef="string" />
+      <rule id="DecisionRule_0qfbiba">
+        <inputEntry id="UnaryTests_1b62bus">
+          <text>&lt;=30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1csbctt">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r6wr2u">
+          <text>"PT5M"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0asqh8r">
+        <inputEntry id="UnaryTests_0ij82dd">
+          <text>&lt;=30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yortaa">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mc5nef">
+          <text>"PT7M"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16kvuxn">
+        <inputEntry id="UnaryTests_02mxmg3">
+          <text>&gt;30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_069mzsw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04fjo1i">
+          <text>"PT10M"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="inputDataAge" name="Age" />
+  <inputData id="inputDataCriticalInfrastructureEmployee" name="Critical Infrastructure Employee" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="quarantineDecision">
+        <dc:Bounds height="80" width="180" x="250" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_08e9wwu" dmnElementRef="inputDataAge">
+        <dc:Bounds height="45" width="125" x="167" y="307" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1b93bks" dmnElementRef="inputDataCriticalInfrastructureEmployee">
+        <dc:Bounds height="45" width="125" x="368" y="309" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0agmyt9" dmnElementRef="InformationRequirement_0m7irho">
+        <di:waypoint x="221" y="308" />
+        <di:waypoint x="310" y="200" />
+        <di:waypoint x="310" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_08ziesk" dmnElementRef="InformationRequirement_0bkc4vi">
+        <di:waypoint x="431" y="309" />
+        <di:waypoint x="370" y="200" />
+        <di:waypoint x="370" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1s45eeg" dmnElementRef="InformationRequirement_0jwv4w3">
+        <di:waypoint x="230" y="307" />
+        <di:waypoint x="310" y="200" />
+        <di:waypoint x="310" y="180" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

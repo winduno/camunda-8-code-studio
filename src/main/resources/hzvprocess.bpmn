@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="d8453983-5119-4afd-b715-bff88057b2fd">
+  <bpmn:collaboration id="Collaboration_06bk3kw">
+    <bpmn:participant id="Participant_1ute8cl" name="Humanity&#39;s Health Department" processRef="Process_HZV" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_HZV" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="userTaskForm_0htjlh9">{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "6c48892"
+  },
+  "schemaVersion": 10,
+  "components": [
+    {
+      "label": "Person to Contact",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0cn4grs",
+        "columns": null
+      },
+      "id": "Field_1dlvuj8",
+      "key": "personUuid"
+    },
+    {
+      "label": "Time to Quarantine",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0onu8vo",
+        "columns": null
+      },
+      "id": "Field_1ccvl8w",
+      "key": "quarantineDuration"
+    },
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Turned into Zombie?",
+      "type": "radio",
+      "layout": {
+        "row": "Row_056lt66",
+        "columns": null
+      },
+      "id": "Field_1734u62",
+      "key": "isZombie",
+      "defaultValue": "yes"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0rims4g"
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="Infected Person Detected">
+      <bpmn:outgoing>Flow_1obpkkj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="Activity_028onag" name="Quarantine Process">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="quarantineDecision" resultVariable="quarantineDuration" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1obpkkj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ouzdb6</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="notifyQuarantineActivity" name="Notify the infected for quarantine">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="notifyForQuarantine" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ouzdb6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p9qov9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1obpkkj" sourceRef="StartEvent_1" targetRef="Activity_028onag" />
+    <bpmn:sequenceFlow id="Flow_1ouzdb6" sourceRef="Activity_028onag" targetRef="notifyQuarantineActivity" />
+    <bpmn:sequenceFlow id="Flow_0p9qov9" sourceRef="notifyQuarantineActivity" targetRef="Activity_09pd6hp" />
+    <bpmn:sequenceFlow id="Flow_13ut58b" sourceRef="Activity_09pd6hp" targetRef="Activity_0okffjk" />
+    <bpmn:sequenceFlow id="Flow_0my3qub" sourceRef="Activity_0okffjk" targetRef="Event_1lqdu8o" />
+    <bpmn:sequenceFlow id="Flow_1rbpfg0" sourceRef="Event_0aqe9zr" targetRef="generateCertificateActivity" />
+    <bpmn:sequenceFlow id="Flow_0864qif" sourceRef="generateCertificateActivity" targetRef="sendCertificateActivity" />
+    <bpmn:sequenceFlow id="Flow_14fmjrn" sourceRef="sendCertificateActivity" targetRef="Event_1oxeiqf" />
+    <bpmn:endEvent id="Event_1oxeiqf" name="Human remained">
+      <bpmn:incoming>Flow_14fmjrn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="generateCertificateActivity" name="Generate certificate">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="generateCertificate" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rbpfg0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0864qif</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="sendCertificateActivity" name="Send certificate">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="sendCertificate" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0864qif</bpmn:incoming>
+      <bpmn:outgoing>Flow_14fmjrn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1lqdu8o" name="Zombie handled">
+      <bpmn:incoming>Flow_0my3qub</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Activity_0okffjk" name="Process zombie handling">
+      <bpmn:incoming>Flow_13ut58b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0my3qub</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:subProcess id="Activity_09pd6hp" name="In Quarantine">
+      <bpmn:incoming>Flow_0p9qov9</bpmn:incoming>
+      <bpmn:outgoing>Flow_13ut58b</bpmn:outgoing>
+      <bpmn:startEvent id="Event_1lx72wa" name="Quarantine Started">
+        <bpmn:outgoing>Flow_129v4n0</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_129v4n0" sourceRef="Event_1lx72wa" targetRef="Activity_0qdjblg" />
+      <bpmn:userTask id="Activity_0qdjblg" name="Check infected person&#39;s status">
+        <bpmn:extensionElements>
+          <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_0htjlh9" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_129v4n0</bpmn:incoming>
+        <bpmn:incoming>Flow_0qgoj8k</bpmn:incoming>
+        <bpmn:outgoing>Flow_1nm7l7y</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="Gateway_0ih0eyf" name="Turned into Zombie?">
+        <bpmn:incoming>Flow_1nm7l7y</bpmn:incoming>
+        <bpmn:outgoing>Flow_0fglult</bpmn:outgoing>
+        <bpmn:outgoing>Flow_16zpmpg</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:sequenceFlow id="Flow_1nm7l7y" sourceRef="Activity_0qdjblg" targetRef="Gateway_0ih0eyf" />
+      <bpmn:endEvent id="Event_112x2iz" name="Person turned into Zombie">
+        <bpmn:incoming>Flow_0fglult</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_0fglult" name="yes" sourceRef="Gateway_0ih0eyf" targetRef="Event_112x2iz">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isZombie = "true"</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_16zpmpg" name="no" sourceRef="Gateway_0ih0eyf" targetRef="Event_06kt8gk">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isZombie = "false"</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:intermediateCatchEvent id="Event_06kt8gk" name="Wait 2 days">
+        <bpmn:incoming>Flow_16zpmpg</bpmn:incoming>
+        <bpmn:outgoing>Flow_0qgoj8k</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1yxlz05">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2M</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:sequenceFlow id="Flow_0qgoj8k" sourceRef="Event_06kt8gk" targetRef="Activity_0qdjblg" />
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="Event_0aqe9zr" attachedToRef="Activity_09pd6hp">
+      <bpmn:outgoing>Flow_1rbpfg0</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0td39l9">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">=quarantineDuration</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_06bk3kw">
+      <bpmndi:BPMNShape id="Participant_1ute8cl_di" bpmnElement="Participant_1ute8cl" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1668" height="360" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="211" y="325" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ubppja_di" bpmnElement="Activity_028onag">
+        <dc:Bounds x="320" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cgynqu_di" bpmnElement="notifyQuarantineActivity">
+        <dc:Bounds x="480" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1oxeiqf_di" bpmnElement="Event_1oxeiqf">
+        <dc:Bounds x="1692" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1668" y="215" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_001hry1_di" bpmnElement="generateCertificateActivity">
+        <dc:Bounds x="1370" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gda6vd_di" bpmnElement="sendCertificateActivity">
+        <dc:Bounds x="1530" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lqdu8o_di" bpmnElement="Event_1lqdu8o">
+        <dc:Bounds x="1692" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1671" y="325" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0okffjk_di" bpmnElement="Activity_0okffjk">
+        <dc:Bounds x="1450" y="260" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oezlwb_di" bpmnElement="Activity_09pd6hp" isExpanded="true">
+        <dc:Bounds x="670" y="110" width="610" height="290" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lx72wa_di" bpmnElement="Event_1lx72wa">
+        <dc:Bounds x="702.3333333333334" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="693" y="305" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dzgn31_di" bpmnElement="Activity_0qdjblg">
+        <dc:Bounds x="830" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ih0eyf_di" bpmnElement="Gateway_0ih0eyf" isMarkerVisible="true">
+        <dc:Bounds x="995" y="255" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="992" y="315" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_112x2iz_di" bpmnElement="Event_112x2iz">
+        <dc:Bounds x="1172" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1155" y="305" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0efr8we_di" bpmnElement="Event_06kt8gk">
+        <dc:Bounds x="1002" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1051" y="163" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_129v4n0_di" bpmnElement="Flow_129v4n0">
+        <di:waypoint x="738" y="280" />
+        <di:waypoint x="830" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nm7l7y_di" bpmnElement="Flow_1nm7l7y">
+        <di:waypoint x="930" y="280" />
+        <di:waypoint x="995" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fglult_di" bpmnElement="Flow_0fglult">
+        <di:waypoint x="1045" y="280" />
+        <di:waypoint x="1172" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1100" y="262" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16zpmpg_di" bpmnElement="Flow_16zpmpg">
+        <di:waypoint x="1020" y="255" />
+        <di:waypoint x="1020" y="188" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1029" y="219" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qgoj8k_di" bpmnElement="Flow_0qgoj8k">
+        <di:waypoint x="1002" y="170" />
+        <di:waypoint x="870" y="170" />
+        <di:waypoint x="870" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1o3ogsv_di" bpmnElement="Event_0aqe9zr">
+        <dc:Bounds x="1262" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1obpkkj_di" bpmnElement="Flow_1obpkkj">
+        <di:waypoint x="268" y="300" />
+        <di:waypoint x="320" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ouzdb6_di" bpmnElement="Flow_1ouzdb6">
+        <di:waypoint x="420" y="300" />
+        <di:waypoint x="480" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p9qov9_di" bpmnElement="Flow_0p9qov9">
+        <di:waypoint x="580" y="300" />
+        <di:waypoint x="670" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13ut58b_di" bpmnElement="Flow_13ut58b">
+        <di:waypoint x="1280" y="300" />
+        <di:waypoint x="1450" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0my3qub_di" bpmnElement="Flow_0my3qub">
+        <di:waypoint x="1550" y="300" />
+        <di:waypoint x="1692" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rbpfg0_di" bpmnElement="Flow_1rbpfg0">
+        <di:waypoint x="1298" y="190" />
+        <di:waypoint x="1370" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0864qif_di" bpmnElement="Flow_0864qif">
+        <di:waypoint x="1470" y="190" />
+        <di:waypoint x="1530" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14fmjrn_di" bpmnElement="Flow_14fmjrn">
+        <di:waypoint x="1630" y="190" />
+        <di:waypoint x="1692" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0km8yib" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.15.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0" camunda:diagramRelationId="c8664c70-0ebb-4019-a889-f6955ca84ed5">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0km8yib" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.15.2" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0" camunda:diagramRelationId="c8664c70-0ebb-4019-a889-f6955ca84ed5">
   <decision id="Decision_Quarantine" name="Quarantine Duration">
     <informationRequirement id="InformationRequirement_1ameg5i">
       <requiredInput href="#InputData_1n9f9g0" />
@@ -31,7 +31,7 @@
           <text>&lt;=30</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1cy0fkh">
-          <text>"P5D"</text>
+          <text>"PT5M"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1bu9re1">
@@ -43,7 +43,7 @@
           <text>&lt;=30</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_14h5x1a">
-          <text>"P7D"</text>
+          <text>"PT7M"</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_13oo3zh">
@@ -55,7 +55,7 @@
           <text>&gt;30</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0jneoia">
-          <text>"P10D"</text>
+          <text>"PT10M"</text>
         </outputEntry>
       </rule>
     </decisionTable>

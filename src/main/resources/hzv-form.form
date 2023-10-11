@@ -1,0 +1,54 @@
+{
+  "components": [
+    {
+      "label": "Person to Contact",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0cn4grs",
+        "columns": null
+      },
+      "id": "Field_1dlvuj8",
+      "key": "personUuid"
+    },
+    {
+      "label": "Time to Quarantine",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0onu8vo",
+        "columns": null
+      },
+      "id": "Field_1ccvl8w",
+      "key": "quarantineDuration"
+    },
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Turned into Zombie?",
+      "type": "radio",
+      "layout": {
+        "row": "Row_056lt66",
+        "columns": null
+      },
+      "id": "Field_1734u62",
+      "key": "isZombie",
+      "defaultValue": "yes"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0rims4g",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.15.2"
+  },
+  "schemaVersion": 10
+}
